@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
 import Forecast from './components/Forecast'
 import TempToggle from './components/TempToggle'
+import ErrorMessage from './components/ErrorMessage'
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
       <TempToggle unit='celsius' onToggle={() => console.log('Toggle clicked')} />
       {/* Send handleSearch so SearchBar can send the city name back here */}
       <SearchBar onSearch={handleSearch} />
+      {/* Show error message if there is one */}
+      <ErrorMessage message={null} />
       {/* Send weather data to CurrentWeather (null for now until API is connected) */}
       <CurrentWeather weatherData={null} />
       {/* Send forecast data to Forecast (null for now until API is connected) */}
