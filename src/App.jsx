@@ -18,7 +18,13 @@ function App() {
 
   // Called when user submits a city in SearchBar
   const handleSearch = async (city) => {
-    // for testing: console.log('User searched for:', city)
+    // (for testing) console.log('User searched for:', city)
+
+    // Check for empty input first
+    if (!city.trim()) {
+      setError('Please enter a city name.')
+      return
+    }
 
     // Clear any previous error and start loading
     setError(null)
@@ -32,8 +38,12 @@ function App() {
       setWeatherData(weather) // store current weather data in state
       setForecastData(forecast) // store formatted forecast data in state
     } catch (err) {
-      // If something goes wrong, store the error message
-      setError('Something went wrong. Please try again.')
+      // 404 message error handling
+      if (err.message === '404') {
+        setError('City not found. Please check the spelling.')
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
     }
 
     setLoading(false) // done loading

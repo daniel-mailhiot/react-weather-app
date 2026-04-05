@@ -7,10 +7,8 @@ function SearchBar({ onSearch }) {
   // When the form is submitted, send the city to App and clear the input
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (city.trim() !== '') {
-      onSearch(city.trim())
-      setCity('')
-    }
+    onSearch(city.trim()) // send whatever the user typed (even if empty) - App handles the error message
+    setCity('')
   }
 
   return (
