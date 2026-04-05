@@ -1,6 +1,8 @@
 import './App.css'
 import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
+import Forecast from './components/Forecast'
+
 
 function App() {
   // Callback function sent to SearchBar, triggered when user submits a city
@@ -15,6 +17,8 @@ function App() {
       <SearchBar onSearch={handleSearch} />
       {/* Send weather data to CurrentWeather (null for now until API is connected) */}
       <CurrentWeather weatherData={null} />
+      {/* Send forecast data to Forecast (null for now until API is connected) */}
+      <Forecast forecastData={null} />
     </div>
   )
 }
