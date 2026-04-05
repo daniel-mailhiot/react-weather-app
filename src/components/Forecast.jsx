@@ -1,9 +1,15 @@
 // Forecast component - receives an array of forecast data and displays a card for each day
-function Forecast({ forecastData }) {
+function Forecast({ forecastData, unit }) {
   // If no data is passed, don't render anything
   if (!forecastData) {
     return null
   }
+
+  // Convert temperature to Fahrenheit if needed
+  const convertTemp = (temp) => {
+    return unit === 'celsius' ? temp : (temp * 9/5) + 32
+  }
+  const degreeSymbol = unit === 'celsius' ? '°C' : '°F'
 
   return (
     <div className='forecast'>
@@ -16,7 +22,7 @@ function Forecast({ forecastData }) {
               src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
               alt={day.description}
             />
-            <p className='forecast-temp'>{Math.round(day.temp)}°C</p>
+            <p className='forecast-temp'>{Math.round(convertTemp(day.temp))}{degreeSymbol}</p>
             <p className='forecast-description'>{day.description}</p>
           </div>
         ))}

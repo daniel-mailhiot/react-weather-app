@@ -5,6 +5,7 @@ import CurrentWeather from './components/CurrentWeather'
 import Forecast from './components/Forecast'
 import TempToggle from './components/TempToggle'
 import ErrorMessage from './components/ErrorMessage'
+import { getCurrentWeather, getForecast } from './services/weatherService'
 
 
 function App() {
@@ -16,10 +17,26 @@ function App() {
   const [loading, setLoading] = useState(false) // tracks if data is being fetched
 
   // Called when user submits a city in SearchBar
-  const handleSearch = (city) => {
-    console.log('User searched for:', city)
-    // clear any previous error when starting a new search
+  const handleSearch = async (city) => {
+    // for testing: console.log('User searched for:', city)
+
+    // Clear any previous error and start loading
     setError(null)
+    setLoading(true)
+
+    try {
+      // Fetch current weather and forecast data at the same time
+      const weather = await getCurrentWeather(city)
+      const forecast = await getForecast(city)
+
+      setWeatherData(weather) // store current weather data in state
+      setForecastData(forecast) // store formatted forecast data in state
+    } catch (err) {
+      // If something goes wrong, store the error message
+      setError('Something went wrong. Please try again.')
+    }
+
+    setLoading(false) // done loading
   }
 
   // Called when user clicks the TempToggle button
@@ -34,8 +51,8 @@ function App() {
       <SearchBar onSearch={handleSearch}/> {/* Search bar sends city name back via handleSearch */}
       <ErrorMessage message={error}/> {/* Show error message if there is one */}
       {loading && <p className='loading'>Loading...</p>} {/* Display loading text while fetching data */}
-      <CurrentWeather weatherData={weatherData}/> {/* Current weather data */}
-      <Forecast forecastData={forecastData}/> {/* 5-day forecast data */}
+      <CurrentWeather weatherData={weatherData} unit={unit}/> {/* Current weather data */}
+      <Forecast forecastData={forecastData} unit={unit}/> {/* 5-day forecast data */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 // CurrentWeather component - receives weather data as props and displays it
-function CurrentWeather({ weatherData }) {
+function CurrentWeather({ weatherData, unit }) {
   // If no data is passed, don't render anything
   if (!weatherData) {
     return null
@@ -14,11 +14,15 @@ function CurrentWeather({ weatherData }) {
   // Weather icon URL from OpenWeatherMap
   const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
+  // Convert temperature to Fahrenheit if needed
+  const displayTemp = unit === 'celsius' ? temp : (temp * 9/5) + 32
+  const degreeSymbol = unit === 'celsius' ? '°C' : '°F'
+
   return (
     <div className='current-weather'>
       <h2>{name}</h2>
-      <img src={iconUrl} alt={description} />
-      <p className='temperature'>{Math.round(temp)}°C</p>
+      <img src={iconUrl} alt={description}/>
+      <p className='temperature'>{Math.round(displayTemp)}{degreeSymbol}</p>
       <p className='description'>{description}</p>
       <div className='details'>
         <p>Humidity: {humidity}%</p>
