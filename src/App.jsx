@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import logo from './assets/logo.svg'
 import './App.css'
 import { ThemeProvider, CssBaseline, Container, Typography, Box, CircularProgress } from '@mui/material'
 import getTheme from './styles/theme'
@@ -93,9 +94,12 @@ function App() {
           gap: 2,
           mb: 2
         }}>
-          <Typography variant='h4' component='h1'>
-            Weather App
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <img src={logo} alt='Weather App logo' style={{ height: '2.5rem' }} />
+            <Typography variant='h4' component='h1'>
+              Weather App
+            </Typography>
+          </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <TempToggle unit={unit} onToggle={handleToggle} />
             <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
