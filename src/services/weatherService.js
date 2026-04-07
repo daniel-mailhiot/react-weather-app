@@ -42,7 +42,7 @@ const getForecast = async (city) => {
         }),
         temp: day.main.temp,
         description: day.weather[0].description,
-        icon: day.weather[0].icon
+        icon: day.weather[0].icon.replace('n', 'd') // always use day icon for forecast
     }))
 
     return formattedForecast
