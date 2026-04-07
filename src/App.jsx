@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import './App.css'
 import { ThemeProvider, CssBaseline, Container, Typography, Box, CircularProgress } from '@mui/material'
 import getTheme from './styles/theme'
@@ -24,6 +24,20 @@ function App() {
 
   // MUI theme - rebuilds only when darkMode changes
   const theme = useMemo(() => getTheme(darkMode ? 'dark' : 'light'), [darkMode])
+
+  // Fetch weather for a default city when the app first loads
+  useEffect(() => {
+    handleSearch('Toronto')
+  }, [])
+
+  // Update the browser tab title when weather data changes
+  useEffect(() => {
+    if (weatherData) {
+      document.title = `Weather - ${weatherData.name}`
+    } else {
+      document.title = 'Weather App'
+    }
+  }, [weatherData])
 
   // Called when user clicks the ThemeToggle button
   const handleThemeToggle = () => setDarkMode(prev => !prev)
