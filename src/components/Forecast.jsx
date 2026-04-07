@@ -42,7 +42,7 @@ function Forecast({ forecastData, unit }) {
               />
 
               {/* Temperature */}
-              <Typography variant='h6'>
+              <Typography variant='h6' key={unit} sx={{ animation: 'tempFade 0.3s ease' }}> {/* key re-mounts on unit change to retrigger fade animation */}
                 {Math.round(convertTemp(day.temp))}{degreeSymbol}
               </Typography>
 

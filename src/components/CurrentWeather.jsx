@@ -60,7 +60,7 @@ function CurrentWeather({ weatherData, unit, loading, onToggle }) {
             style={{ width: '100px', height: '100px' }}
           />
 
-          <Typography variant='h3'>
+          <Typography variant='h3' key={unit} sx={{ animation: 'tempFade 0.3s ease' }}> {/* key re-mounts on unit change to retrigger fade animation */}
             {Math.round(displayTemp)}{degreeSymbol}
           </Typography>
         </Box>
