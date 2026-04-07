@@ -5,10 +5,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7'
 
 function ThemeToggle({ darkMode, onToggle }) {
   return (
-    <IconButton
-      onClick={onToggle}
-      sx={{ position: 'absolute', top: 16, right: 16 }}
-    >
+    <IconButton onClick={onToggle}>
       {/* Show moon icon in light mode, sun icon in dark mode */}
       {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
     </IconButton>

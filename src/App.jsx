@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import './App.css'
-import { ThemeProvider, CssBaseline, Container, Typography } from '@mui/material'
+import { ThemeProvider, CssBaseline, Container, Typography, Box, CircularProgress } from '@mui/material'
 import getTheme from './styles/theme'
 import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
@@ -61,25 +61,41 @@ function App() {
     setLoading(false) // done loading
   }
 
-  // Called when user clicks the TempToggle button
-  const handleToggle = () => {
-    setUnit(unit === 'celsius' ? 'fahrenheit' : 'celsius')
+  // Called when user clicks a TempToggle button, newUnit comes from MUI ToggleButtonGroup
+  const handleToggle = (event, newUnit) => {
+    if (newUnit !== null) setUnit(newUnit)
   }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* MUI CSS reset - normalizes styles and applies theme background */}
-      <Container maxWidth='md' sx={{ py: 4, position: 'relative' }}> {/* Centered container with vertical padding */}
-        <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
-        <Typography variant='h4' component='h1' align='center' gutterBottom>
-          Weather App
-        </Typography>
-        <TempToggle unit={unit} onToggle={handleToggle} />
+      <Container maxWidth='md' sx={{ py: 4 }}>
+        {/* Header - title on the left, toggles on the right */}
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: 2,
+          mb: 2
+        }}>
+          <Typography variant='h4' component='h1'>
+            Weather App
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TempToggle unit={unit} onToggle={handleToggle} />
+            <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
+          </Box>
+        </Box>
         <SearchBar onSearch={handleSearch} />
         <ErrorMessage message={error} />
-        {loading && <p className='loading'>Loading...</p>}
-        <CurrentWeather weatherData={weatherData} unit={unit} />
-        <Forecast forecastData={forecastData} unit={unit} />
+        {loading && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
+        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} /> {/* key triggers fade-in animation on city change so animation plays every time*/}
+        <Forecast key={weatherData?.name + '-forecast'} forecastData={forecastData} unit={unit} />
       </Container>
     </ThemeProvider>
   )

@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
 // SearchBar component - onSearch comes from App and sends the city name back when called
 function SearchBar({ onSearch }) {
@@ -12,15 +15,18 @@ function SearchBar({ onSearch }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type='text'
+    <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', gap: 1, my: 2 }}>
+      <TextField
+        fullWidth
+        size='small'
         placeholder='Enter city name...'
         value={city}
         onChange={(e) => setCity(e.target.value)} // update state on each keystroke
       />
-      <button type='submit'>Search</button>
-    </form>
+      <Button type='submit' variant='contained'>
+        Search
+      </Button>
+    </Box>
   )
 }
 

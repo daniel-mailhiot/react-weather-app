@@ -1,0 +1,25 @@
+/* Card hover effect - lifts card up slightly on hover */
+.MuiCard-root {
+  transition: transform 0.2s ease !important; /* !important to override MUI's default transition that takes priority over this CSS class */
+}
+
+.MuiCard-root:hover {
+  transform: translateY(-4px);
+}
+
+/* Fade-in animation for weather data appearing */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply fade-in to the main content container */
+.MuiCardContent-root {
+  animation: fadeIn 0.4s ease;
+}

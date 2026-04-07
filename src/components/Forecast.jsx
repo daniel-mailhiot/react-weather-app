@@ -1,3 +1,8 @@
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+
 // Forecast component - receives an array of forecast data and displays a card for each day
 function Forecast({ forecastData, unit }) {
   // If no data is passed, don't render anything
@@ -12,23 +17,44 @@ function Forecast({ forecastData, unit }) {
   const degreeSymbol = unit === 'celsius' ? '°C' : '°F'
 
   return (
-    <div className='forecast'>
-      <h3>5-Day Forecast</h3>
-      <div className='forecast-cards'>
+    <Box sx={{ my: 3 }}>
+      {/* Section heading */}
+      <Typography variant='h6' align='center' gutterBottom>
+        5-Day Forecast
+      </Typography>
+
+      {/* Forecast cards container - wraps responsively */}
+      <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         {forecastData.map((day, index) => (
-          <div key={index} className='forecast-card'>
-            <p className='forecast-date'>{day.date}</p>
-            <img
-              src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
-              alt={day.description}
-            />
-            <p className='forecast-temp'>{Math.round(convertTemp(day.temp))}{degreeSymbol}</p>
-            <p className='forecast-description'>{day.description}</p>
-          </div>
+          <Card key={index} elevation={2} sx={{ flex: '1 1 150px', maxWidth: 180 }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              {/* Date */}
+              <Typography variant='subtitle2'>
+                {day.date}
+              </Typography>
+
+              {/* Weather icon */}
+              <img
+                src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
+                alt={day.description}
+              />
+
+              {/* Temperature */}
+              <Typography variant='h6'>
+                {Math.round(convertTemp(day.temp))}{degreeSymbol}
+              </Typography>
+
+              {/* Description */}
+              <Typography variant='body2' color='text.secondary'>
+                {day.description}
+              </Typography>
+            </CardContent>
+          </Card>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
+
 }
 
 export default Forecast
