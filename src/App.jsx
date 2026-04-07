@@ -1,12 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import logo from './assets/logo.svg'
 import './App.css'
-import { ThemeProvider, CssBaseline, Container, Typography, Box, CircularProgress } from '@mui/material'
+import { ThemeProvider, CssBaseline, Container, Typography, Box } from '@mui/material'
 import getTheme from './styles/theme'
 import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
 import Forecast from './components/Forecast'
-import TempToggle from './components/TempToggle'
 import ErrorMessage from './components/ErrorMessage'
 import ThemeToggle from './components/ThemeToggle'
 import { getCurrentWeather, getForecast } from './services/weatherService'
@@ -76,9 +75,9 @@ function App() {
     setLoading(false) // done loading
   }
 
-  // Called when user clicks a TempToggle button, newUnit comes from MUI ToggleButtonGroup
-  const handleToggle = (event, newUnit) => {
-    if (newUnit !== null) setUnit(newUnit)
+  // Called when user clicks the TempToggle - switches between celsius and fahrenheit
+  const handleToggle = () => {
+    setUnit(prev => prev === 'celsius' ? 'fahrenheit' : 'celsius')
   }
 
   return (
@@ -100,14 +99,11 @@ function App() {
               Weather App
             </Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <TempToggle unit={unit} onToggle={handleToggle} />
-            <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
-          </Box>
+          <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
         </Box>
         <SearchBar onSearch={handleSearch} />
         <ErrorMessage message={error} />
-        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} loading={loading} /> {/* key triggers fade-in animation on city change so animation plays every time*/}
+        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} loading={loading} onToggle={handleToggle} /> {/* key re-mounts component on city change */}
         <Forecast key={weatherData?.name + '-forecast'} forecastData={forecastData} unit={unit} />
       </Container>
     </ThemeProvider>

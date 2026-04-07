@@ -6,9 +6,10 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import getWeatherIconPath from '../utils/weatherIcons'
+import TempToggle from './TempToggle'
 
 // CurrentWeather component - receives weather data as props and displays it
-function CurrentWeather({ weatherData, unit, loading }) {
+function CurrentWeather({ weatherData, unit, loading, onToggle }) {
   // Show loading spinner or nothing if no data
   if (!weatherData || loading) {
     if (loading) {
@@ -41,10 +42,15 @@ function CurrentWeather({ weatherData, unit, loading }) {
   return (
     <Card elevation={3} sx={{ my: 3 }}>
       <CardContent>
-        {/* City name */}
-        <Typography variant='h5' align='center'>
-          {name}
-        </Typography>
+        {/* City name and temperature toggle */}
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative' }}>
+          <Typography variant='h5'>
+            {name}
+          </Typography>
+          <Box sx={{ position: 'absolute', right: 0 }}>
+            <TempToggle unit={unit} onToggle={onToggle} />
+          </Box>
+        </Box>
 
         {/* Weather icon and temperature */}
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
