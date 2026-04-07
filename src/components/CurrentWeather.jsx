@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
+import getWeatherIconPath from '../utils/weatherIcons'
 
 // CurrentWeather component - receives weather data as props and displays it
 function CurrentWeather({ weatherData, unit }) {
@@ -18,8 +19,8 @@ function CurrentWeather({ weatherData, unit }) {
   const { speed } = weatherData.wind // wind speed
   const { description, icon } = weatherData.weather[0] // weather description and icon code
 
-  // Weather icon URL from OpenWeatherMap
-  const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+  // Weather icons
+  const iconUrl = getWeatherIconPath(icon)
 
   // Convert temperature to Fahrenheit if needed
   const displayTemp = unit === 'celsius' ? temp : (temp * 9 / 5) + 32
@@ -35,7 +36,12 @@ function CurrentWeather({ weatherData, unit }) {
 
         {/* Weather icon and temperature */}
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <img src={iconUrl} alt={description} />
+          <img
+            src={iconUrl}
+            alt={description}
+            style={{ width: '100px', height: '100px' }}
+          />
+
           <Typography variant='h3'>
             {Math.round(displayTemp)}{degreeSymbol}
           </Typography>

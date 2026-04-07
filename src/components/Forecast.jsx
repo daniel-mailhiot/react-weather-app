@@ -2,6 +2,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import getWeatherIconPath from '../utils/weatherIcons'
 
 // Forecast component - receives an array of forecast data and displays a card for each day
 function Forecast({ forecastData, unit }) {
@@ -12,7 +13,7 @@ function Forecast({ forecastData, unit }) {
 
   // Convert temperature to Fahrenheit if needed
   const convertTemp = (temp) => {
-    return unit === 'celsius' ? temp : (temp * 9/5) + 32
+    return unit === 'celsius' ? temp : (temp * 9 / 5) + 32
   }
   const degreeSymbol = unit === 'celsius' ? '°C' : '°F'
 
@@ -35,8 +36,9 @@ function Forecast({ forecastData, unit }) {
 
               {/* Weather icon */}
               <img
-                src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}
+                src={getWeatherIconPath(day.icon)}
                 alt={day.description}
+                style={{ width: '64px', height: '64px' }}
               />
 
               {/* Temperature */}
