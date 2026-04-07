@@ -21,5 +21,5 @@
 
 /* Apply fade-in to the main content container */
 .MuiCardContent-root {
-  animation: fadeIn 0.4s ease;
+  animation: fadeIn 0.8s ease;
 }

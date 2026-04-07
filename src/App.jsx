@@ -107,12 +107,7 @@ function App() {
         </Box>
         <SearchBar onSearch={handleSearch} />
         <ErrorMessage message={error} />
-        {loading && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-            <CircularProgress />
-          </Box>
-        )}
-        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} /> {/* key triggers fade-in animation on city change so animation plays every time*/}
+        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} loading={loading} /> {/* key triggers fade-in animation on city change so animation plays every time*/}
         <Forecast key={weatherData?.name + '-forecast'} forecastData={forecastData} unit={unit} />
       </Container>
     </ThemeProvider>

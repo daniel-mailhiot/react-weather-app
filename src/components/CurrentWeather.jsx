@@ -2,14 +2,26 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import getWeatherIconPath from '../utils/weatherIcons'
 
 // CurrentWeather component - receives weather data as props and displays it
-function CurrentWeather({ weatherData, unit }) {
-  // If no data is passed, don't render anything
-  if (!weatherData) {
+function CurrentWeather({ weatherData, unit, loading }) {
+  // Show loading spinner or nothing if no data
+  if (!weatherData || loading) {
+    if (loading) {
+      return (
+        <Card elevation={3} sx={{ my: 3 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+              <CircularProgress />
+            </Box>
+          </CardContent>
+        </Card>
+      )
+    }
     return null
   }
 
