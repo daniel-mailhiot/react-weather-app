@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import './App.css'
+import { ThemeProvider, CssBaseline, Container, Typography } from '@mui/material'
+import getTheme from './styles/theme'
 import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
 import Forecast from './components/Forecast'
 import TempToggle from './components/TempToggle'
 import ErrorMessage from './components/ErrorMessage'
+import ThemeToggle from './components/ThemeToggle'
 import { getCurrentWeather, getForecast } from './services/weatherService'
 
 
@@ -15,6 +18,15 @@ function App() {
   const [unit, setUnit] = useState('celsius') // tracks the selected temperature unit
   const [error, setError] = useState(null) // stores error messages to display
   const [loading, setLoading] = useState(false) // tracks if data is being fetched
+
+  // Dark mode state to track if the app is in dark/light mode
+  const [darkMode, setDarkMode] = useState(false)
+
+  // MUI theme - rebuilds only when darkMode changes
+  const theme = useMemo(() => getTheme(darkMode ? 'dark' : 'light'), [darkMode])
+
+  // Called when user clicks the ThemeToggle button
+  const handleThemeToggle = () => setDarkMode(prev => !prev)
 
   // Called when user submits a city in SearchBar
   const handleSearch = async (city) => {
@@ -55,15 +67,21 @@ function App() {
   }
 
   return (
-    <div className='App'>
-      <h1>Weather App</h1>
-      <TempToggle unit={unit} onToggle={handleToggle}/> {/* Toggle button switches between Celsius and Fahrenheit */}
-      <SearchBar onSearch={handleSearch}/> {/* Search bar sends city name back via handleSearch */}
-      <ErrorMessage message={error}/> {/* Show error message if there is one */}
-      {loading && <p className='loading'>Loading...</p>} {/* Display loading text while fetching data */}
-      <CurrentWeather weatherData={weatherData} unit={unit}/> {/* Current weather data */}
-      <Forecast forecastData={forecastData} unit={unit}/> {/* 5-day forecast data */}
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* MUI CSS reset - normalizes styles and applies theme background */}
+      <Container maxWidth='md' sx={{ py: 4, position: 'relative' }}> {/* Centered container with vertical padding */}
+        <ThemeToggle darkMode={darkMode} onToggle={handleThemeToggle} />
+        <Typography variant='h4' component='h1' align='center' gutterBottom>
+          Weather App
+        </Typography>
+        <TempToggle unit={unit} onToggle={handleToggle} />
+        <SearchBar onSearch={handleSearch} />
+        <ErrorMessage message={error} />
+        {loading && <p className='loading'>Loading...</p>}
+        <CurrentWeather weatherData={weatherData} unit={unit} />
+        <Forecast forecastData={forecastData} unit={unit} />
+      </Container>
+    </ThemeProvider>
   )
 }
 
