@@ -99,11 +99,12 @@ function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) 
           </Box>
         </Box>
 
-        {/* Main content area - row layout when expanded on md+ screens */}
+        {/* Main content area - single row when expanded on md+, stacks on xs */}
         <Box sx={{
           display: 'flex',
           flexDirection: { xs: 'column', md: expanded ? 'row' : 'column' },
-          alignItems: { xs: 'center', md: expanded ? 'flex-start' : 'center' },
+          alignItems: 'center',
+          justifyContent: 'center',
           gap: expanded ? 3 : 0,
         }}>
           {/* Weather summary - icon, temp, description */}
@@ -111,8 +112,6 @@ function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) 
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            width: expanded ? { xs: '100%', md: '35%' } : '100%',
-            transition: 'width 0.5s ease',
             flexShrink: 0,
           }}>
             {/* Weather icon and temperature */}
@@ -133,33 +132,35 @@ function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) 
             </Typography>
           </Box>
 
-          {/* Expanded details panel - weather stats and gauges */}
+          {/* Expanded details panel - text stats and gauges all in one row on md+ */}
           {expanded && (
             <Box sx={{
-              flex: 1,
               animation: 'fadeIn 0.5s ease',
               display: 'flex',
-              flexDirection: 'column',
-              gap: 1,
-              pt: { xs: 1, md: 2 },
+              flexDirection: { xs: 'column', md: 'row' },
+              alignItems: 'center',
+              gap: { xs: 2, md: 4 },
+              pt: { xs: 1, md: 0 },
             }}>
-              {/* Temperature details */}
-              <Typography variant='body1' key={`feels-${unit}`} sx={{ animation: 'tempFade 0.3s ease' }}>
-                Feels like: {Math.round(convertTemp(feels_like))}{degreeSymbol}
-              </Typography>
-              <Typography variant='body1' key={`range-${unit}`} sx={{ animation: 'tempFade 0.3s ease' }}>
-                High: {Math.round(convertTemp(temp_max))}{degreeSymbol} / Low: {Math.round(convertTemp(temp_min))}{degreeSymbol}
-              </Typography>
-              <Typography variant='body1'>
-                Wind: {speed} m/s {getWindDirection(deg)}
-              </Typography>
+              {/* Text details column - feels like, high/low, wind */}
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                <Typography variant='body1' key={`feels-${unit}`} sx={{ animation: 'tempFade 0.3s ease' }}>
+                  Feels like: {Math.round(convertTemp(feels_like))}{degreeSymbol}
+                </Typography>
+                <Typography variant='body1' key={`range-${unit}`} sx={{ animation: 'tempFade 0.3s ease' }}>
+                  High: {Math.round(convertTemp(temp_max))}{degreeSymbol} / Low: {Math.round(convertTemp(temp_min))}{degreeSymbol}
+                </Typography>
+                <Typography variant='body1'>
+                  Wind: {speed} m/s {getWindDirection(deg)}
+                </Typography>
+              </Box>
 
-              {/* Pressure and humidity gauges */}
+              {/* Gauges row - kept together as a unit so they stay side-by-side */}
               <Box sx={{
                 display: 'flex',
-                gap: 4,
-                mt: 1,
-                justifyContent: { xs: 'center', md: 'flex-start' },
+                gap: 3,
+                alignItems: 'flex-start',
+                flexShrink: 0,
               }}>
                 {/* Pressure gauge - custom pointer built with useGaugeState */}
                 <Box sx={{ textAlign: 'center' }}>
