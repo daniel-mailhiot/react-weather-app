@@ -42,6 +42,16 @@ function GaugePointer() {
 function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) {
   const [expanded, setExpanded] = useState(false) // tracks if the details panel is open
 
+  // Toggle expand/collapse - when expanding, scroll to top
+  const handleToggleExpand = () => {
+    setExpanded((prev) => {
+      if (!prev) {
+        window.scrollTo({ top: 0, behavior: 'smooth' }) // scroll to top only when opening
+      }
+      return !prev
+    })
+  }
+
   // Show loading spinner or nothing if no data
   if (!weatherData || loading) {
     if (loading) {
@@ -253,7 +263,7 @@ function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) 
           <Button
             variant='text'
             size='small'
-            onClick={() => setExpanded((prev) => !prev)}
+            onClick={handleToggleExpand}
             sx={{ textTransform: 'none' }}
           >
             {expanded ? 'Less Info' : 'More Info'}
