@@ -108,11 +108,12 @@ function CurrentWeather({ weatherData, forecastData, unit, loading, onToggle }) 
           gap: expanded ? 3 : 0,
         }}>
           {/* Weather summary - icon, temp, description */}
-          <Box sx={{
+          <Box key={expanded} sx={{ /* key changes on expand toggle to retrigger the fade animation to match the expanded details panel */
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             flexShrink: 0,
+            animation: 'fadeIn 0.5s ease',
           }}>
             {/* Weather icon and temperature */}
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

@@ -1,6 +1,6 @@
 /* Card hover effect - lifts card up slightly on hover */
 .MuiCard-root {
-  transition: transform 0.2s ease !important;
+  transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease !important;
   /* !important to override MUI's default transition that takes priority over this CSS class */
 }
 

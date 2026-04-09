@@ -26,7 +26,7 @@ const getTheme = (mode) => createTheme({
       : {
           // Dark mode colors
           background: {
-            default: '#0a0a0a',
+            default: '#121212',
             paper: '#1a1a1a',
           },
           primary: {
