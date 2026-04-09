@@ -103,7 +103,7 @@ function App() {
         </Box>
         <SearchBar onSearch={handleSearch} />
         <ErrorMessage message={error} />
-        <CurrentWeather key={weatherData?.name} weatherData={weatherData} unit={unit} loading={loading} onToggle={handleToggle} /> {/* key re-mounts component on city change */}
+        <CurrentWeather key={weatherData?.name} weatherData={weatherData} forecastData={forecastData} unit={unit} loading={loading} onToggle={handleToggle} /> {/* key re-mounts component on city change */}
         <Forecast key={weatherData?.name + '-forecast'} forecastData={forecastData} unit={unit} />
       </Container>
     </ThemeProvider>
