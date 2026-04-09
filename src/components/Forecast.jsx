@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
@@ -9,6 +10,14 @@ function Forecast({ forecastData, unit }) {
   // If no data is passed, don't render anything
   if (!forecastData) {
     return null
+  }
+
+  // Tracks which cards are flipped to high/low view - keys are card indexes, value true means showing high/low
+  const [highLowCards, setHighLowCards] = useState({})
+
+  // Toggle high/low view for a single card by its index
+  const toggleHighLow = (index) => {
+    setHighLowCards((prev) => ({ ...prev, [index]: !prev[index] }))
   }
 
   // Convert temperature to Fahrenheit if needed
@@ -27,7 +36,12 @@ function Forecast({ forecastData, unit }) {
       {/* Forecast cards container - wraps responsively */}
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
         {forecastData.map((day, index) => (
-          <Card key={index} elevation={2} sx={{ flex: '1 1 150px', maxWidth: 180 }}>
+          <Card
+            key={index}
+            elevation={2}
+            onClick={() => toggleHighLow(index)}
+            sx={{ flex: '1 1 150px', maxWidth: 180, cursor: 'pointer' }}
+          >
             <CardContent sx={{ textAlign: 'center' }}>
               {/* Date */}
               <Typography variant='subtitle2'>
@@ -41,9 +55,12 @@ function Forecast({ forecastData, unit }) {
                 style={{ width: '64px', height: '64px' }}
               />
 
-              {/* Temperature */}
-              <Typography variant='h6' key={unit} sx={{ animation: 'tempFade 0.3s ease' }}> {/* key re-mounts on unit change to retrigger fade animation */}
-                {Math.round(convertTemp(day.temp))}{degreeSymbol}
+              {/* Temperature - toggles between current temp and high/low on card click */}
+              {/* key includes unit and toggle state so the fade animation retriggers on both changes */}
+              <Typography variant='h6' key={`${unit}-${!!highLowCards[index]}`} sx={{ animation: 'tempFade 0.3s ease' }}>
+                {highLowCards[index]
+                  ? `${Math.round(convertTemp(day.tempMax))}${degreeSymbol} - ${Math.round(convertTemp(day.tempMin))}${degreeSymbol}`
+                  : `${Math.round(convertTemp(day.temp))}${degreeSymbol}`}
               </Typography>
 
               {/* Description */}
