@@ -25,20 +25,6 @@ function App() {
   // MUI theme - rebuilds only when darkMode changes
   const theme = useMemo(() => getTheme(darkMode ? 'dark' : 'light'), [darkMode])
 
-  // Fetch weather for a default city when the app first loads
-  useEffect(() => {
-    handleSearch('Toronto')
-  }, [])
-
-  // Update the browser tab title when weather data changes
-  useEffect(() => {
-    if (weatherData) {
-      document.title = `Weather - ${weatherData.name}`
-    } else {
-      document.title = 'Weather App'
-    }
-  }, [weatherData])
-
   // Called when user clicks the ThemeToggle button
   const handleThemeToggle = () => setDarkMode(prev => !prev)
 
@@ -57,7 +43,7 @@ function App() {
     setLoading(true)
 
     try {
-      // Fetch current weather and forecast data at the same time
+      // Fetch current weather and forecast data
       const weather = await getCurrentWeather(city)
       const forecast = await getForecast(city)
 
@@ -79,6 +65,20 @@ function App() {
   const handleToggle = () => {
     setUnit(prev => prev === 'celsius' ? 'fahrenheit' : 'celsius')
   }
+
+  // Fetch weather for a default city when the app first loads
+  useEffect(() => {
+    handleSearch('Toronto')
+  }, [])
+
+  // Update the browser tab title when weather data changes
+  useEffect(() => {
+    if (weatherData) {
+      document.title = `Weather - ${weatherData.name}`
+    } else {
+      document.title = 'Weather App'
+    }
+  }, [weatherData])
 
   return (
     <ThemeProvider theme={theme}>

@@ -7,13 +7,13 @@ import getWeatherIconPath from '../utils/weatherIcons'
 
 // Forecast component - receives an array of forecast data and displays a card for each day
 function Forecast({ forecastData, unit }) {
+  // Tracks which cards are flipped to high/low view - keys are card indexes, value true means showing high/low
+  const [highLowCards, setHighLowCards] = useState({})
+
   // If no data is passed, don't render anything
   if (!forecastData) {
     return null
   }
-
-  // Tracks which cards are flipped to high/low view - keys are card indexes, value true means showing high/low
-  const [highLowCards, setHighLowCards] = useState({})
 
   // Toggle high/low view for a single card by its index
   const toggleHighLow = (index) => {
