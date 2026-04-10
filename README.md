@@ -1,6 +1,8 @@
 # React Weather App
 A weather app that uses the OpenWeatherMap API to fetch current conditions and a 5-day forecast for any city. The main weather card expands to reveal detailed stats, pressure and humidity gauges, and line charts visualizing weather forecast data. State is managed with React hooks, the UI is built with Material UI, and MUI X Charts renders the data visualizations.
 
+**Live demo:** [react-weather-app-nqvq.onrender.com](https://react-weather-app-nqvq.onrender.com/)
+
 ## Features
 - **Search any city** to fetch current weather and forecast data from OpenWeatherMap API
 - **Main weather overview card** with temperature, current conditions, and animated SVG icons using Meteocons by Bas Milius
